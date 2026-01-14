@@ -1,5 +1,5 @@
-import Logo from "./Logo";
-import UserPreivew from "./UserPreivew";
+import Logo from "../../../shared/Logo";
+import UserPreivew from "../../../shared/UserPreivew";
 
 export default function ChatSidemenu() {
   return (

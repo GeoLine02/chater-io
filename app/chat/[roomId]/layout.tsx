@@ -1,15 +1,18 @@
-import ChatBox from "@/app/shared/ChatBox";
-import ChatRoomHeader from "@/app/shared/ChatRoomHeader";
-import ChatSidemenu from "@/app/shared/ChatSidemenu";
-import OnlineUserSideMenu from "@/app/shared/OnlineUserSideMenu";
+import ChatRoomHeader from "@/app/chat/[roomId]/components/ChatRoomHeader";
+import ChatSidemenu from "@/app/chat/[roomId]/components/ChatSidemenu";
+import OnlineUserSideMenu from "@/app/chat/[roomId]/components/OnlineUserSideMenu";
 
-export default function ChatRoomLayout() {
+interface ChatRoomLayoutProps {
+  children: React.ReactNode;
+}
+
+export default function ChatRoomLayout({ children }: ChatRoomLayoutProps) {
   return (
-    <div className="flex border border-border-default rounded-2xl w-full max-w-300 min-h-[90%] overflow-hidden">
+    <div className="flex h-screen">
       <ChatSidemenu />
-      <section className="flex flex-col w-full">
+      <section className="flex flex-col flex-1 h-full">
         <ChatRoomHeader />
-        <ChatBox />
+        <div className="flex-1">{children}</div>
       </section>
       <OnlineUserSideMenu />
     </div>
