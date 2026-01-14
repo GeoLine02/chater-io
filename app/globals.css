@@ -1,26 +1,37 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* bg colors */
+  --color-bg-app: #0f172a;
+  --color-bg-sidebar: #020617;
+  --color-bg-panel: #1e293b;
+  --color-bg-users-panel: #1b263b;
+  --color-bg-header: #111827;
+  --bg-message: #334155; /* other users messages  */
+  --color-bg-message-own: #2563eb; /* current user messages */
+  --color-bg-input: #1f2937; /* message input */
+  --color-bg-button: #3b82f6; /* primary buttons */
+  --color-bg-button-hover: #2563eb; /* button hover */
+  --color-text-primary: #e5e7eb; /* main text */
+  --color-text-secondary: #9ca3af; /* secondary text */
+  --color-text-muted: #6b7280; /* timestamps, placeholders */
+  --color-text-inverse: #ffffff; /* text on colored surfaces */
+  --color-status-online: #22c55e;
+  --color-status-offline: #64748b;
+  --color-status-error: #ef4444;
+  --color-accent-primary: #3b82f6;
+  --color-accent-secondary: #1d4ed8;
+  --color-accent-active: #2563eb;
+  --color-border-default: #334155;
+  --color-border-muted: #1f2937;
+  --color-shadow-default: rgba(0, 0, 0, 0.4);
+  --color-overlay-glass: rgba(255, 255, 255, 0.02);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.hover-animtaion {
+  @apply transition-all ease-in-out duration-300;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  @apply bg-bg-app min-h-screen flex place-content-center;
 }
