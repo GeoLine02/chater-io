@@ -1,31 +1,45 @@
 "use client";
 
-import * as React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { ClipLoader } from "react-spinners";
 
 import Logo from "@/app/shared/Logo";
 import Card from "@/app/ui/Card";
 import TextInput from "@/app/ui/TextInput";
 import Button from "@/app/ui/Button";
+
 import { RegisterFormValues, registerSchema } from "./schema/registerSchema";
+import { useRouter } from "next/navigation";
+import { userRegisterService } from "./services/registerService";
+import { UserRegisterCredsType } from "./types";
 
 export default function Register() {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<RegisterFormValues>({
     resolver: zodResolver(registerSchema),
     mode: "onBlur",
   });
 
-  const onSubmit = async (data: RegisterFormValues) => {
+  const router = useRouter();
+  const onSubmit = async (data: UserRegisterCredsType) => {
     try {
-      console.log("Registration data:", data);
-      // TODO: call registration API
-    } catch (error) {
-      console.error(error);
+      const res = await userRegisterService(data);
+      console.log("res", res);
+      router.push("/login");
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      if (error.type === "existingEmail") {
+        setError("email", { message: error.message });
+      }
+
+      if (error.type === "existingUsername") {
+        setError("username", { message: error.message });
+      }
     }
   };
 
@@ -40,18 +54,17 @@ export default function Register() {
           onSubmit={handleSubmit(onSubmit)}
         >
           <TextInput
-            label="Username"
-            placeholder="Enter your username"
-            {...register("username")}
-            error={errors.username?.message}
-          />
-
-          <TextInput
             label="Email"
             type="email"
             placeholder="Enter your email"
             {...register("email")}
             error={errors.email?.message}
+          />
+          <TextInput
+            label="Username"
+            placeholder="Enter your username"
+            {...register("username")}
+            error={errors.username?.message}
           />
 
           <TextInput
@@ -70,13 +83,20 @@ export default function Register() {
             error={errors.confirmPassword?.message}
           />
 
+          {/* 🔴 Backend error */}
+          {errors.root?.message && (
+            <p className="text-sm text-status-error text-center">
+              {errors.root.message}
+            </p>
+          )}
+
           <Button
             type="submit"
             disabled={isSubmitting}
             variant="primary"
             size="md"
           >
-            {isSubmitting ? "Registering..." : "Register"}
+            {isSubmitting ? <ClipLoader size={22} color="white" /> : "Register"}
           </Button>
         </form>
       </Card>

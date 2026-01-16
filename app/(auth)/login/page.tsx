@@ -1,6 +1,5 @@
 "use client";
 
-import * as React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -8,24 +7,37 @@ import Logo from "@/app/shared/Logo";
 import Card from "@/app/ui/Card";
 import TextInput from "@/app/ui/TextInput";
 import Button from "@/app/ui/Button";
+
 import { LoginFormValues, loginSchema } from "./schema/loginSchema";
+import { userLoginService } from "./services/loginService";
+import { useRouter } from "next/navigation";
 
 export default function Login() {
   const {
     register,
     handleSubmit,
+    setError,
     formState: { errors, isSubmitting },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
     mode: "onBlur",
   });
 
+  const router = useRouter();
+
   const onSubmit = async (data: LoginFormValues) => {
     try {
-      console.log("Login data:", data);
-      // TODO: call login API
-    } catch (error) {
-      console.error(error);
+      const res = await userLoginService(data);
+      console.log("enters");
+      if (res.user) {
+        router.push("/");
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      console.log(error);
+      if (error.type === "incorrectCreds") {
+        setError("root", { message: error.message });
+      }
     }
   };
 
@@ -53,6 +65,12 @@ export default function Login() {
             {...register("password")}
             error={errors.password?.message}
           />
+
+          {errors.root?.message && (
+            <p className="text-sm text-status-error text-center">
+              {errors.root.message}
+            </p>
+          )}
 
           <Button
             type="submit"
