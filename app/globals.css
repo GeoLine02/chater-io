@@ -35,3 +35,22 @@
 body {
   @apply bg-bg-app;
 }
+
+/* Remove autocomplete background */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  box-shadow: 0 0 0 30px white inset !important;
+}
+
+/* If you want a transparent background */
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 30px transparent inset !important;
+}
+
+/* Change text color if needed */
+input:-webkit-autofill {
+  -webkit-text-fill-color: #000 !important;
+}
