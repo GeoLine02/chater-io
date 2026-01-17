@@ -3,7 +3,7 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import Logo from "@/app/shared/Logo";
+import Logo from "@/app/shared/components/Logo";
 import Card from "@/app/ui/Card";
 import TextInput from "@/app/ui/TextInput";
 import Button from "@/app/ui/Button";
