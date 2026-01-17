@@ -1,7 +1,14 @@
 "use client";
 
 import { User } from "@/types/uesr";
-import { createContext, useContext, useState, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
+import { fetchUser } from "../shared/services";
 
 interface UserContextType {
   user: User | null;
@@ -13,6 +20,14 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  useEffect(() => {
+    const getUser = async () => {
+      const res = await fetchUser();
+      setUser(res.data);
+    };
+
+    getUser();
+  }, []);
 
   const logout = () => {
     setUser(null);
