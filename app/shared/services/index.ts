@@ -1,6 +1,6 @@
 import api from "@/utils/axios";
 
-export const fetchUser = async () => {
+export const fetchUserService = async () => {
   try {
     const res = await api.get("/user/me");
 
