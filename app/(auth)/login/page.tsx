@@ -11,6 +11,7 @@ import Button from "@/app/ui/Button";
 import { LoginFormValues, loginSchema } from "./schema/loginSchema";
 import { userLoginService } from "./services/loginService";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/context/UserContext";
 
 export default function Login() {
   const {
@@ -25,12 +26,15 @@ export default function Login() {
 
   const router = useRouter();
 
+  const { fetchUser } = useUser();
+
   const onSubmit = async (data: LoginFormValues) => {
     try {
       const res = await userLoginService(data);
-      console.log("enters");
       if (res.user) {
-        router.push("/");
+        await fetchUser();
+
+        router.push("/me");
       }
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {

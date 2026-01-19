@@ -28,8 +28,7 @@ export default function Register() {
   const router = useRouter();
   const onSubmit = async (data: UserRegisterCredsType) => {
     try {
-      const res = await userRegisterService(data);
-      console.log("res", res);
+      await userRegisterService(data);
       router.push("/login");
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {

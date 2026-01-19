@@ -1,4 +1,10 @@
+"use client";
+
+import { useUser } from "@/context/UserContext";
+
 export default function UserPreivew() {
+  const { user } = useUser();
+
   return (
     <div className="flex gap-3 p-4">
       <div className="relative">
@@ -8,9 +14,9 @@ export default function UserPreivew() {
         <div className="w-4 aspect-square rounded-full bg-status-online absolute bottom-0 right-0"></div>
       </div>
       <div>
-        <h1 className="text-lg font-medium text-white">Alex</h1>
+        <h1 className="text-lg font-medium text-white">{user?.username}</h1>
         <h2 className="text-sm font-medium text-text-secondary">
-          Alex@example.com
+          {user?.email}
         </h2>
       </div>
     </div>
