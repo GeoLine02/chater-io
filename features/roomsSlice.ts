@@ -1,18 +1,23 @@
 import { getAllRoomsByUserIdService } from "@/app/me/services/rooms";
-import { RoomsType } from "@/types/rooms";
+import { ChatType } from "@/app/room/[slug]/types";
+import { RoomType } from "@/types/rooms";
 import api from "@/utils/axios";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 interface initialStateType {
   isCreateRoomOpen: boolean;
-  rooms: RoomsType[];
+  rooms: RoomType[];
   isLoading: boolean;
+  selectedRoom: RoomType | null;
+  selectedChat: ChatType | null;
 }
 
 const initialState: initialStateType = {
   isCreateRoomOpen: false,
   rooms: [],
   isLoading: false,
+  selectedRoom: null,
+  selectedChat: null,
 };
 
 interface CreateRoomArgs {
@@ -21,7 +26,7 @@ interface CreateRoomArgs {
 }
 
 export const createRoomThunk = createAsyncThunk<
-  RoomsType, // return type
+  RoomType, // return type
   CreateRoomArgs, // args type
   { rejectValue: string }
 >("rooms/createRoom", async ({ roomName, userId }, { rejectWithValue }) => {
@@ -66,6 +71,10 @@ const roomsSlice = createSlice({
     onCloseCreateRoom: (state) => {
       state.isCreateRoomOpen = false;
     },
+
+    onSelectChat: (state, action) => {
+      state.selectedChat = action.payload;
+    },
   },
   extraReducers: (builder) => {
     // create room
@@ -97,5 +106,6 @@ const roomsSlice = createSlice({
   },
 });
 
-export const { onOpenCreateRoom, onCloseCreateRoom } = roomsSlice.actions;
+export const { onOpenCreateRoom, onCloseCreateRoom, onSelectChat } =
+  roomsSlice.actions;
 export default roomsSlice.reducer;
